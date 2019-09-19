@@ -30,6 +30,7 @@
 # > cmake --build . --target install
 
 cmake_minimum_required(VERSION 3.1)
+SET(CMAKE_CONFIGURATION_TYPES ${CMAKE_BUILD_TYPE} CACHE STRING "" FORCE)
 project(libqgit2)
 
 set(CMAKE_CXX_STANDARD 11)
