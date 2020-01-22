@@ -10,7 +10,6 @@
       "cmakeCommandArgs": "",
       "buildCommandArgs": "-v",
       "ctestCommandArgs": "",
-      "inheritEnvironments": [ "msvc_x64_x64" ],
       "variables": [
         {
           "name": "Qt5_DIR",
