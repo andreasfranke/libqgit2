@@ -18,7 +18,7 @@
         },
         {
           "name": "LIBGIT2_SRC_DIR",
-          "value": "D:\\temp\\eat3-mes_automaticupdaterWithLib\\libgit2",
+          "value": ".\\..\\libgit2",
           "type": "PATH"
         }
       ]
@@ -41,7 +41,7 @@
         },
         {
           "name": "LIBGIT2_SRC_DIR",
-          "value": "D:\\temp\\eat3-mes_automaticupdaterWithLib\\libgit2",
+          "value": ".\\..\\libgit2",
           "type": "PATH"
         }
       ]
