@@ -30,6 +30,7 @@
 # > cmake --build . --target install
 
 cmake_minimum_required(VERSION 3.1)
+#SET(CMAKE_CONFIGURATION_TYPES ${CMAKE_BUILD_TYPE} CACHE STRING "" FORCE)
 project(libqgit2)
 
 set(CMAKE_CXX_STANDARD 11)
@@ -62,9 +63,9 @@ set(INSTALL_INC include CACHE PATH "Where to install headers to.")
 # Build options
 option(BUILD_TESTS "Build Tests" ON)
 
-# Build Release by default
+# Build RelWithDebInfo by default
 if(NOT CMAKE_BUILD_TYPE)
-    set(CMAKE_BUILD_TYPE "Release" CACHE STRING "Choose the type of build, options are: Debug Release RelWithDebInfo MinSizeRel." FORCE)
+    set(CMAKE_BUILD_TYPE "RelWithDebInfo" CACHE STRING "Choose the type of build, options are: Debug Release RelWithDebInfo MinSizeRel." FORCE)
 endif()
 
 set(LIBGIT2_SRC_DIR "" CACHE PATH "Build libgit2 source from this directory.")
