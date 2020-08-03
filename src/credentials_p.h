@@ -19,7 +19,13 @@
 #ifndef LIBQGIT2_CREDENTIALS_P_H
 #define LIBQGIT2_CREDENTIALS_P_H
 
+#include "libqgit2_config.h"
+
+#if LIBGIT2_VERSION_ < LIBGIT2_VERSION_CHECK(1, 0, 0)
 struct git_cred;
+#else
+struct git_credential;
+#endif //LIBGIT2_VERSION_ < LIBGIT2_VERSION_CHECK(1, 0, 0)
 
 namespace LibQGit2
 {
@@ -31,10 +37,18 @@ public:
     CredentialsPrivate(unsigned int allowedTypes);
     virtual ~CredentialsPrivate();
 
-    static int create(Credentials &credentials, git_cred **cred, const char *url, const char *usernameFromUrl, unsigned int allowedTypes);
+#if LIBGIT2_VERSION_ < LIBGIT2_VERSION_CHECK(1, 0, 0)
+	static int create(Credentials& credentials, git_cred** cred, const char* url, const char* usernameFromUrl, unsigned int allowedTypes);
+#else
+	static int create(Credentials& credentials, git_credential** cred, const char* url, const char* usernameFromUrl, unsigned int allowedTypes);
+#endif // LIBGIT2_VERSION_ < LIBGIT2_VERSION_CHECK(1, 0, 0)
 
 protected:
+#if LIBGIT2_VERSION_ < LIBGIT2_VERSION_CHECK(1, 0, 0)
     virtual int create(git_cred **cred, const char *url, const char *usernameFromUrl, unsigned int allowedTypes);
+#else
+    virtual int create(git_credential **cred, const char *url, const char *usernameFromUrl, unsigned int allowedTypes);
+#endif // LIBGIT2_VERSION_ < LIBGIT2_VERSION_CHECK(1, 0, 0)
 
 private:
     unsigned int m_allowed_types;

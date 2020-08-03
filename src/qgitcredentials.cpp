@@ -33,12 +33,20 @@ CredentialsPrivate::CredentialsPrivate(unsigned int allowedTypes) :
 
 CredentialsPrivate::~CredentialsPrivate() {}
 
+#if LIBGIT2_VERSION_ < LIBGIT2_VERSION_CHECK(1, 0, 0)
 int CredentialsPrivate::create(git_cred**, const char*, const char*, unsigned int)
+#else
+int CredentialsPrivate::create(git_credential**, const char*, const char*, unsigned int)
+#endif // LIBGIT2_VERSION_ < LIBGIT2_VERSION_CHECK(1, 0, 0)
 {
     return -1;
 }
 
+#if LIBGIT2_VERSION_ < LIBGIT2_VERSION_CHECK(1, 0, 0)
 int CredentialsPrivate::create(Credentials &credentials, git_cred **cred, const char *url, const char *usernameFromUrl, unsigned int allowedTypes)
+#else
+int CredentialsPrivate::create(Credentials& credentials, git_credential** cred, const char* url, const char* usernameFromUrl, unsigned int allowedTypes)
+#endif // LIBGIT2_VERSION_ < LIBGIT2_VERSION_CHECK(1, 0, 0)
 {
     CredentialsPrivate *d = credentials.d_func();
 
@@ -62,7 +70,11 @@ struct SSHCredentialsPrivate : public CredentialsPrivate {
     }
 
 protected:
-    int create(git_cred **cred, const char*, const char*, unsigned int allowedTypes)
+#if LIBGIT2_VERSION_ < LIBGIT2_VERSION_CHECK(1, 0, 0)
+	int create(git_cred** cred, const char*, const char*, unsigned int allowedTypes)
+#else
+    int create(git_credential** cred, const char*, const char*, unsigned int allowedTypes)
+#endif // LIBGIT2_VERSION_ < LIBGIT2_VERSION_CHECK(1, 0, 0)
     {
         if (allowedTypes & GIT_CREDTYPE_USERNAME) {
             return git_cred_username_new(cred, m_user_name.data());

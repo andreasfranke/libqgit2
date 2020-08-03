@@ -560,7 +560,9 @@ namespace LibQGit2
             * @param path non-existing directory for the new clone
             * @throws LibQGit2::Exception
             */
-            void clone(const QString& url, const QString& path);
+			void clone(const QString& url, const QString& path);
+			void cloneDev(const QString& url, const QString& path);
+			void cloneDevMaster(const QString& url, const QString& path);
 
             /**
             * Add remote repository.

@@ -51,7 +51,11 @@ public:
 
 private:
     static int transferProgressCallback(const git_transfer_progress* stats, void* data);
+#if LIBGIT2_VERSION_ < LIBGIT2_VERSION_CHECK(1, 0, 0)
     static int acquireCredentialsCallback(git_cred **cred, const char *url, const char *usernameFromUrl, unsigned int allowedTypes, void *data);
+#else
+    static int acquireCredentialsCallback(git_credential **cred, const char *url, const char *usernameFromUrl, unsigned int allowedTypes, void *data);
+#endif // LIBGIT2_VERSION_ < LIBGIT2_VERSION_CHECK(1, 0, 0)
 
     RemoteListener *m_listener;
     Credentials m_credentials;
