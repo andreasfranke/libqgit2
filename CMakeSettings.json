@@ -1,47 +1,57 @@
 ﻿{
   "configurations": [
     {
-      "name": "x64-Debug",
-      "generator": "Ninja",
-      "configurationType": "Debug",
-      "inheritEnvironments": [ "msvc_x64_x64" ],
-      "buildRoot": "${projectDir}\\out\\build\\${name}",
-      "installRoot": "${projectDir}\\..\\install\\${name}",
-      "cmakeCommandArgs": "",
       "buildCommandArgs": "-v",
+      "buildRoot": "${projectDir}\\out\\build\\${name}",
+      "cmakeCommandArgs": "",
+      "configurationType": "Debug",
       "ctestCommandArgs": "",
+      "generator": "Ninja",
+      "inheritEnvironments": [ "msvc_x64_x64" ],
+      "installRoot": "${projectDir}\\..\\install\\${name}",
+      "name": "x64-Debug",
       "variables": [
         {
           "name": "Qt5_DIR",
-          "value": "C:\\Qt\\5.12.6\\msvc2017_64",
+          "value": "C:\\Qt\\5.15.0\\msvc2019_64",
           "type": "PATH"
         },
         {
           "name": "LIBGIT2_SRC_DIR",
           "value": ".\\..\\libgit2",
+          "type": "PATH"
+        },
+        {
+          "name": "CMAKE_INSTALL_PREFIX",
+          "value": ".\\..\\install\\x64-Debug",
           "type": "PATH"
         }
       ]
     },
     {
-      "name": "x64-RelWithDebInfo",
-      "generator": "Ninja",
-      "configurationType": "RelWithDebInfo",
-      "buildRoot": "${projectDir}\\out\\build\\${name}",
-      "installRoot": "${projectDir}\\..\\install\\${name}",
-      "cmakeCommandArgs": "",
       "buildCommandArgs": "-v",
+      "buildRoot": "${projectDir}\\out\\build\\${name}",
+      "cmakeCommandArgs": "",
+      "configurationType": "RelWithDebInfo",
       "ctestCommandArgs": "",
+      "generator": "Ninja",
       "inheritEnvironments": [ "msvc_x64_x64" ],
+      "installRoot": "${projectDir}\\..\\install\\${name}",
+      "name": "x64-RelWithDebInfo",
       "variables": [
         {
           "name": "Qt5_DIR",
-          "value": "C:\\Qt\\5.12.6\\msvc2017_64",
+          "value": "C:\\Qt\\5.15.0\\msvc2019_64",
           "type": "PATH"
         },
         {
           "name": "LIBGIT2_SRC_DIR",
           "value": ".\\..\\libgit2",
+          "type": "PATH"
+        },
+        {
+          "name": "CMAKE_INSTALL_PREFIX",
+          "value": ".\\..\\install\\x64-RelWithDebInfo",
           "type": "PATH"
         }
       ]

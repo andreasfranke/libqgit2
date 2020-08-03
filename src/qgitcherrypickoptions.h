@@ -24,8 +24,10 @@
 #include "qgitmergeoptions.h"
 #include "qgitcheckoutoptions.h"
 
+
 namespace LibQGit2
 {
+    class CherryPickOptionsPrivate;
     /**
      * Options that specify how a cherry-pick operation is performed.
      *
@@ -55,9 +57,8 @@ namespace LibQGit2
         const git_cherrypick_options* data() const;
 
     private:
-        class Private;
-        QSharedPointer<Private> d_ptr;
-        Q_DECLARE_PRIVATE()
+        QSharedPointer<CherryPickOptionsPrivate> d_ptr;
+        Q_DECLARE_PRIVATE(CherryPickOptions)
     };
 
     /** @} */

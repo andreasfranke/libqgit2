@@ -23,7 +23,11 @@
 
 #include "libqgit2_config.h"
 
+#if LIBGIT2_VERSION_ < LIBGIT2_VERSION_CHECK(1, 0, 0)
 struct git_cred;
+#else
+struct git_credential;
+#endif // LIBGIT2_VERSION_ < LIBGIT2_VERSION_CHECK(1, 0, 0)
 
 namespace LibQGit2
 {

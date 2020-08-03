@@ -21,10 +21,10 @@
 namespace LibQGit2
 {
 
-class CherryPickOptions::Private
+class CherryPickOptionsPrivate
 {
 public:
-    Private(const MergeOptions &mergeOpts, const CheckoutOptions &checkoutOpts)
+    CherryPickOptionsPrivate(const MergeOptions &mergeOpts, const CheckoutOptions &checkoutOpts)
     {
         git_cherrypick_options temp = GIT_CHERRYPICK_OPTIONS_INIT;
         native = temp;
@@ -38,7 +38,7 @@ public:
 
 
 CherryPickOptions::CherryPickOptions(const MergeOptions &mergeOpts, const CheckoutOptions &checkoutOpts)
-    : d_ptr(new Private(mergeOpts, checkoutOpts))
+    : d_ptr(new CherryPickOptionsPrivate(mergeOpts, checkoutOpts))
 {
 }
 

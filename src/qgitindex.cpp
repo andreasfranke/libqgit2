@@ -104,7 +104,7 @@ IndexEntry Index::getByIndex(int n) const
     return IndexEntry(git_index_get_byindex(data(), n));
 }
 
-unsigned int Index::entryCount() const
+size_t Index::entryCount() const
 {
     return git_index_entrycount(data());
 }

@@ -21,6 +21,7 @@
 #define LIBQGIT2_LIB_CONFIG_H
 
 #include <QtCore/QtGlobal>
+#include "git2/version.h"
 
 /** @defgroup LibQGit2 The Qt Library for Git revision control featuring libgit2
  * Qt wrapper classes for the LibGit2 library.
@@ -42,5 +43,14 @@
 #ifndef LIBQGIT2_FUNC_NAME
 #define LIBQGIT2_FUNC_NAME __func__
 #endif
+
+ /*
+ LIBGIT2_VERSION_ is (major << 16) + (minor << 8) + rev.
+ */
+#define LIBGIT2_VERSION_      LIBGIT2_VERSION_CHECK(LIBGIT2_VER_MAJOR, LIBGIT2_VER_MINOR, LIBGIT2_VER_REVISION)
+ /*
+ can be used like #if (PM_VERSION >= LIBGIT2_VERSION_CHECK(4, 4, 0))
+ */
+#define LIBGIT2_VERSION_CHECK(major, minor, patch) ((major<<16)|(minor<<8)|(patch))
 
 #endif // LIBQGIT2_LIB_CONFIG_H

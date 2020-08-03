@@ -178,7 +178,7 @@ namespace LibQGit2
              *
              * @return integer of count of current entries
              */
-            unsigned int entryCount() const;
+            size_t entryCount() const;
 
             /**
              * Checks if this Index has conflicts.

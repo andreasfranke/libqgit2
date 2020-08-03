@@ -25,6 +25,7 @@
 
 namespace LibQGit2
 {
+	class CheckoutOptionsPrivate;
     /**
      * Options that specify how a checkout operation is performed.
      *
@@ -84,9 +85,8 @@ namespace LibQGit2
         const git_checkout_options* data() const;
 
     private:
-        class Private;
-        QSharedPointer<Private> d_ptr;
-        Q_DECLARE_PRIVATE()
+        QSharedPointer<CheckoutOptionsPrivate> d_ptr;
+        Q_DECLARE_PRIVATE(CheckoutOptions)
     };
 
     Q_DECLARE_OPERATORS_FOR_FLAGS(CheckoutOptions::Flags)

@@ -70,7 +70,11 @@ int RemoteCallbacks::transferProgressCallback(const git_transfer_progress* stats
     return ret;
 }
 
+#if LIBGIT2_VERSION_ < LIBGIT2_VERSION_CHECK(1, 0, 0)
 int RemoteCallbacks::acquireCredentialsCallback(git_cred **cred, const char *url, const char *usernameFromUrl, unsigned int allowedTypes, void *data)
+#else
+int RemoteCallbacks::acquireCredentialsCallback(git_credential **cred, const char *url, const char *usernameFromUrl, unsigned int allowedTypes, void *data)
+#endif // LIBGIT2_VERSION_ < LIBGIT2_VERSION_CHECK(1, 0, 0)
 {
     int result = -1;
     if (data) {
