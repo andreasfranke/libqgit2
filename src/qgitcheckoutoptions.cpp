@@ -23,53 +23,53 @@
 namespace LibQGit2
 {
 
-class CheckoutOptions::Private
+class CheckoutOptionsPrivate
 {
 public:
-    Private(Strategy strategy, Flags flags)
+    CheckoutOptionsPrivate(CheckoutOptions::Strategy strategy, CheckoutOptions::Flags flags)
     {
         git_checkout_options temp = GIT_CHECKOUT_OPTIONS_INIT;
         native = temp;
 
         switch (strategy) {
-        case Safe:
+        case CheckoutOptions::Safe:
             native.checkout_strategy |= GIT_CHECKOUT_SAFE;
             break;
-        case Force:
+        case CheckoutOptions::Force:
             native.checkout_strategy |= GIT_CHECKOUT_FORCE;
             break;
         default:
             break;
         }
 
-        if (flags.testFlag(AllowConflicts)) {
+        if (flags.testFlag(CheckoutOptions::AllowConflicts)) {
             native.checkout_strategy |= GIT_CHECKOUT_ALLOW_CONFLICTS;
         }
-        if (flags.testFlag(RemoveUntracked)) {
+        if (flags.testFlag(CheckoutOptions::RemoveUntracked)) {
             native.checkout_strategy |= GIT_CHECKOUT_REMOVE_UNTRACKED;
         }
-        if (flags.testFlag(RemoveIgnored)) {
+        if (flags.testFlag(CheckoutOptions::RemoveIgnored)) {
             native.checkout_strategy |= GIT_CHECKOUT_REMOVE_IGNORED;
         }
-        if (flags.testFlag(UpdateOnly)) {
+        if (flags.testFlag(CheckoutOptions::UpdateOnly)) {
             native.checkout_strategy |= GIT_CHECKOUT_UPDATE_ONLY;
         }
-        if (flags.testFlag(DontUpdateIndex)) {
+        if (flags.testFlag(CheckoutOptions::DontUpdateIndex)) {
             native.checkout_strategy |= GIT_CHECKOUT_DONT_UPDATE_INDEX;
         }
-        if (flags.testFlag(NoRefresh)) {
+        if (flags.testFlag(CheckoutOptions::NoRefresh)) {
             native.checkout_strategy |= GIT_CHECKOUT_NO_REFRESH;
         }
-        if (flags.testFlag(SkipUnmerged)) {
+        if (flags.testFlag(CheckoutOptions::SkipUnmerged)) {
             native.checkout_strategy |= GIT_CHECKOUT_SKIP_UNMERGED;
         }
-        if (flags.testFlag(UnmergedUseOurs)) {
+        if (flags.testFlag(CheckoutOptions::UnmergedUseOurs)) {
             native.checkout_strategy |= GIT_CHECKOUT_USE_OURS;
         }
-        if (flags.testFlag(UnmergedUseTheirs)) {
+        if (flags.testFlag(CheckoutOptions::UnmergedUseTheirs)) {
             native.checkout_strategy |= GIT_CHECKOUT_USE_THEIRS;
         }
-        if (flags.testFlag(RecreateMissing)) {
+        if (flags.testFlag(CheckoutOptions::RecreateMissing)) {
             native.checkout_strategy |= GIT_CHECKOUT_RECREATE_MISSING;
         }
     }
@@ -99,7 +99,7 @@ public:
 
 
 CheckoutOptions::CheckoutOptions(Strategy strategy, Flags flags)
-    : d_ptr(new Private(strategy, flags))
+    : d_ptr(new CheckoutOptionsPrivate(strategy, flags))
 {
 }
 
