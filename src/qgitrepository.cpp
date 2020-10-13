@@ -469,6 +469,20 @@ void Repository::setRemoteCredentials(const QString& remoteName, Credentials cre
     d_ptr->m_remote_credentials[remoteName] = credentials;
 }
 
+static int remote_singlebranch_cb(git_remote** out, git_repository* repo,
+    const char* name, const char* url, void* payload)
+{
+    int error;
+    git_remote* remote;
+
+    Q_UNUSED(payload);
+
+    if ((error = git_remote_create_with_fetchspec(&remote, repo, name, url, "+refs/heads/master:refs/remotes/origin/master")) < 0)
+		return error;
+
+    *out = remote;
+    return 0;
+}
 
 void Repository::clone(const QString& url, const QString& path)
 {
@@ -479,6 +493,10 @@ void Repository::clone(const QString& url, const QString& path)
     git_clone_options opts = GIT_CLONE_OPTIONS_INIT;
     opts.fetch_opts.callbacks = remoteCallbacks.rawCallbacks();
     opts.checkout_opts.checkout_strategy = GIT_CHECKOUT_SAFE;
+    opts.fetch_opts.download_tags = GIT_REMOTE_DOWNLOAD_TAGS_NONE;
+    opts.checkout_branch = "master";
+    opts.remote_cb = remote_singlebranch_cb;
+    //opts.remote_cb_payload = ;
     qGitEnsureValue(0, git_clone(&repo, url.toLatin1(), PathCodec::toLibGit2(path), &opts));
 
     d_ptr->setData(repo);
