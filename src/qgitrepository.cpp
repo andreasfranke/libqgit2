@@ -469,7 +469,7 @@ void Repository::setRemoteCredentials(const QString& remoteName, Credentials cre
     d_ptr->m_remote_credentials[remoteName] = credentials;
 }
 
-static int remote_singlebranch_cb(git_remote** out, git_repository* repo,
+static int remote_singlebranch_master_cb(git_remote** out, git_repository* repo,
     const char* name, const char* url, void* payload)
 {
     int error;
@@ -495,11 +495,26 @@ void Repository::clone(const QString& url, const QString& path)
     opts.checkout_opts.checkout_strategy = GIT_CHECKOUT_SAFE;
     opts.fetch_opts.download_tags = GIT_REMOTE_DOWNLOAD_TAGS_NONE;
     opts.checkout_branch = "master";
-    opts.remote_cb = remote_singlebranch_cb;
+    opts.remote_cb = remote_singlebranch_master_cb;
     //opts.remote_cb_payload = ;
     qGitEnsureValue(0, git_clone(&repo, url.toLatin1(), PathCodec::toLibGit2(path), &opts));
 
     d_ptr->setData(repo);
+}
+
+static int remote_singlebranch_dev_cb(git_remote** out, git_repository* repo,
+	const char* name, const char* url, void* payload)
+{
+	int error;
+	git_remote* remote;
+
+	Q_UNUSED(payload);
+
+	if((error = git_remote_create_with_fetchspec(&remote, repo, name, url, "+refs/heads/dev:refs/remotes/origin/dev")) < 0)
+		return error;
+
+	*out = remote;
+	return 0;
 }
 
 
@@ -512,14 +527,31 @@ void Repository::cloneDev(const QString& url, const QString& path/*, const QStri
 	git_clone_options opts = GIT_CLONE_OPTIONS_INIT;
 	opts.fetch_opts.callbacks = remoteCallbacks.rawCallbacks();
 	opts.checkout_opts.checkout_strategy = GIT_CHECKOUT_SAFE;
+	opts.fetch_opts.download_tags = GIT_REMOTE_DOWNLOAD_TAGS_NONE;
     /* Not working with branch from param, but dont know why?
     QByteArray baCheckoutBranch = sBranch.toLatin1();
     const char* sCheckoutBranch = baCheckoutBranch;*/
-    opts.checkout_branch = "dev";// sCheckoutBranch;
+	opts.checkout_branch = "dev";// sCheckoutBranch;
+	opts.remote_cb = remote_singlebranch_dev_cb;
     opts.local = GIT_CLONE_LOCAL;
 	qGitEnsureValue(0, git_clone(&repo, url.toLatin1(), PathCodec::toLibGit2(path), &opts));
 
 	d_ptr->setData(repo);
+}
+
+static int remote_singlebranch_devMaster_cb(git_remote** out, git_repository* repo,
+	const char* name, const char* url, void* payload)
+{
+	int error;
+	git_remote* remote;
+
+	Q_UNUSED(payload);
+
+	if((error = git_remote_create_with_fetchspec(&remote, repo, name, url, "+refs/heads/dev_master:refs/remotes/origin/dev_master")) < 0)
+		return error;
+
+	*out = remote;
+	return 0;
 }
 
 
@@ -531,11 +563,13 @@ void Repository::cloneDevMaster(const QString& url, const QString& path)
     git_repository* repo = 0;
     git_clone_options opts = GIT_CLONE_OPTIONS_INIT;
     opts.fetch_opts.callbacks = remoteCallbacks.rawCallbacks();
-    opts.checkout_opts.checkout_strategy = GIT_CHECKOUT_SAFE;
+	opts.checkout_opts.checkout_strategy = GIT_CHECKOUT_SAFE;
+	opts.fetch_opts.download_tags = GIT_REMOTE_DOWNLOAD_TAGS_NONE;
     /* Not working with branch from param, but dont know why?
     QByteArray baCheckoutBranch = sBranch.toLatin1();
     const char* sCheckoutBranch = baCheckoutBranch;*/
-    opts.checkout_branch = "dev_master";// sCheckoutBranch;
+	opts.checkout_branch = "dev_master";// sCheckoutBranch;
+	opts.remote_cb = remote_singlebranch_devMaster_cb;
     opts.local = GIT_CLONE_LOCAL;
     qGitEnsureValue(0, git_clone(&repo, url.toLatin1(), PathCodec::toLibGit2(path), &opts));
 
