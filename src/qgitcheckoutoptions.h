@@ -21,6 +21,7 @@
 
 #include "git2.h"
 #include <QSharedPointer>
+#include <QObject>
 #include "libqgit2_config.h"
 
 namespace LibQGit2
@@ -32,8 +33,10 @@ namespace LibQGit2
      * @ingroup LibQGit2
      * @{
      */
-    class LIBQGIT2_EXPORT CheckoutOptions
+    class LIBQGIT2_EXPORT CheckoutOptions : public QObject
     {
+		Q_OBJECT
+
     public:
         /**
          * A checkout strategy.
@@ -67,6 +70,7 @@ namespace LibQGit2
          * @param flags Details about the checkout process.
          */
         CheckoutOptions(Strategy strategy = None, Flags flags = Flags());
+		~CheckoutOptions() {};
 
         /**
          * Set the target directory where the files will be checked out.
@@ -83,6 +87,11 @@ namespace LibQGit2
         void setPaths(const QList<QString> &paths);
 
         const git_checkout_options* data() const;
+
+		static void checkout_progress(const char* path, size_t current, size_t total, void* payload);
+
+	signals:
+		void sigProgress(int nPercent);
 
     private:
         QSharedPointer<CheckoutOptionsPrivate> d_ptr;

@@ -101,11 +101,26 @@ public:
 CheckoutOptions::CheckoutOptions(Strategy strategy, Flags flags)
     : d_ptr(new CheckoutOptionsPrivate(strategy, flags))
 {
+	d_ptr->native.progress_payload = (void*)this;
+	d_ptr->native.progress_cb = &checkout_progress;
 }
 
 const git_checkout_options* CheckoutOptions::data() const
 {
     return &d_ptr->native;
+}
+
+void CheckoutOptions::checkout_progress(const char* path, size_t current, size_t total, void* payload)
+{
+	if (payload)
+	{
+		CheckoutOptions* cco = (CheckoutOptions*)payload;
+
+		int percent = (int)(0.5 + 100.0 * ((double)current) / ((double)total));
+
+		emit cco->sigProgress(percent);
+	}
+
 }
 
 void CheckoutOptions::setTargetDirectory(const QString &dir)
